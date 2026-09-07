@@ -4,7 +4,7 @@ An end-to-end machine learning application that predicts customer churn probabil
 
 ## Live Demo
 
-[Add your deployed application URL here]
+https://customer-churn-prediction-lj26.onrender.com/
 
 ## Project Overview
 
