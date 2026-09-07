@@ -6,8 +6,6 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import joblib
-import webbrowser
-from threading import Timer
 
 # ---------------------------------------------------------
 # Load Trained Model
@@ -20,13 +18,6 @@ model = joblib.load("model.pkl")
 # ---------------------------------------------------------
 
 app = Flask(__name__)
-
-# ---------------------------------------------------------
-# Auto Open Browser
-# ---------------------------------------------------------
-
-def open_browser():
-    webbrowser.open_new("http://127.0.0.1:5000")
 
 # ---------------------------------------------------------
 # Home Page
@@ -45,25 +36,25 @@ def predict():
 
     input_data = pd.DataFrame({
 
-        "gender":[request.form["gender"]],
-        "SeniorCitizen":[int(request.form["SeniorCitizen"])],
-        "Partner":[request.form["Partner"]],
-        "Dependents":[request.form["Dependents"]],
-        "tenure":[int(request.form["tenure"])],
-        "PhoneService":[request.form["PhoneService"]],
-        "MultipleLines":[request.form["MultipleLines"]],
-        "InternetService":[request.form["InternetService"]],
-        "OnlineSecurity":[request.form["OnlineSecurity"]],
-        "OnlineBackup":[request.form["OnlineBackup"]],
-        "DeviceProtection":[request.form["DeviceProtection"]],
-        "TechSupport":[request.form["TechSupport"]],
-        "StreamingTV":[request.form["StreamingTV"]],
-        "StreamingMovies":[request.form["StreamingMovies"]],
-        "Contract":[request.form["Contract"]],
-        "PaperlessBilling":[request.form["PaperlessBilling"]],
-        "PaymentMethod":[request.form["PaymentMethod"]],
-        "MonthlyCharges":[float(request.form["MonthlyCharges"])],
-        "TotalCharges":[float(request.form["TotalCharges"])]
+        "gender": [request.form["gender"]],
+        "SeniorCitizen": [int(request.form["SeniorCitizen"])],
+        "Partner": [request.form["Partner"]],
+        "Dependents": [request.form["Dependents"]],
+        "tenure": [int(request.form["tenure"])],
+        "PhoneService": [request.form["PhoneService"]],
+        "MultipleLines": [request.form["MultipleLines"]],
+        "InternetService": [request.form["InternetService"]],
+        "OnlineSecurity": [request.form["OnlineSecurity"]],
+        "OnlineBackup": [request.form["OnlineBackup"]],
+        "DeviceProtection": [request.form["DeviceProtection"]],
+        "TechSupport": [request.form["TechSupport"]],
+        "StreamingTV": [request.form["StreamingTV"]],
+        "StreamingMovies": [request.form["StreamingMovies"]],
+        "Contract": [request.form["Contract"]],
+        "PaperlessBilling": [request.form["PaperlessBilling"]],
+        "PaymentMethod": [request.form["PaymentMethod"]],
+        "MonthlyCharges": [float(request.form["MonthlyCharges"])],
+        "TotalCharges": [float(request.form["TotalCharges"])]
 
     })
 
@@ -80,9 +71,7 @@ def predict():
     if prediction == 1:
 
         result = "Customer is likely to Churn"
-
         status = "HIGH CHURN RISK"
-
         status_color = "danger"
 
         confidence = probability_percent
@@ -98,9 +87,7 @@ def predict():
     else:
 
         result = "Customer is likely to Stay"
-
         status = "LOW CHURN RISK"
-
         status_color = "success"
 
         confidence = round(100 - probability_percent, 2)
@@ -118,31 +105,24 @@ def predict():
         "result.html",
 
         prediction=result,
-
         probability=probability_percent,
-
         confidence=confidence,
-
         recommendation=recommendation,
-
         risk=status,
-
         status_color=status_color,
-
         risk_icon=risk_icon
 
     )
 
+
 # ---------------------------------------------------------
-# Run Application
+# Application Entry Point
 # ---------------------------------------------------------
 
 if __name__ == "__main__":
 
-    Timer(1, open_browser).start()
-
     app.run(
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=5000,
         debug=True
     )
